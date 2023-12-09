@@ -5,10 +5,14 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 import '@/assets/css/global.css'
+import request from "@/utils/request";
+
 
 Vue.config.productionTip = false
 // Vue.use(ElementUI,options : { size: 'small' });
 Vue.use(ElementUI);
+
+Vue.prototype.$request=request
 
 new Vue({
   router,

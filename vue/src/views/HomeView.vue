@@ -54,9 +54,7 @@
            </el-dropdown>
          </div>
        </el-header>
-       <!--       主体区域-->
 
-        <!--     内容修饰-->
        <el-main>主体
          <div style="box-shadow: 0 0 10px rgba(0,0,0,0.1);padding: 10px 20px;border-radius: 10px;margin-bottom: 10px">
            越来越好，越来越幸运，所有考试都通过！！！！！！！！！！！！
@@ -88,6 +86,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
+import request from "@/utils/request";
 
 export default {
   name: 'HomeView',
@@ -97,6 +96,11 @@ export default {
       asideWidth: '200px',
       collapseIcon: 'el-icon-s-fold'
     }
+  },
+  mounted() {   // 页面加载完成之后触发
+    request.get('/user/selectAll').then(res =>  {
+      this.users=res.data
+    })
   },
   methods :{
     handleCollapse(){

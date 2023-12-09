@@ -59,7 +59,9 @@ export default {
       this.code = code
     },
     login () {
-      console.log(this.code)
+      this.$request.post('/login', this.user).then(res =>{
+        console.log(res)
+      })
     }
   }
 }

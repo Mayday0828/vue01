@@ -1,22 +1,25 @@
+package com.example.springboot.controller;
+
 import cn.hutool.core.util.StrUtil;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.User;
 import com.example.springboot.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-/**
- * 功能：提供接口返回数据
- * 作者：程序员青戈
- * 日期：2023/8/13 15:55
- */
+
 @RestController
 public class WebController {
 
+    @RequestMapping
+//    public String hello(){
+//        return "成功启动！！！";
+//    }
+
+    public Result hello(String name){
+        return Result.success(name);
+    }
     @Resource
     UserService userService;
 
