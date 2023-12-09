@@ -5,7 +5,7 @@
         <img src="../assets/img.png" alt="" style="width:100%;height: 100%">
       </div>
       <div style="flex: 1;display: flex; align-items: center;justify-content: center">
-        <el-form :model="user" style="width: 80%">
+        <el-form :model="user" style="width: 80%" :rules="rules" ref="loginRef">
           <div style="font-size: 20px;font-weight: bold;text-align: center; margin-bottom: 20px">欢迎登录</div>
           <el-form-item prop="username">
             <el-input  prefix-icon="el-icon-user" placeholder="请输入账号：" v-model="user.username"></el-input>
@@ -48,6 +48,17 @@ export default {
         code: '', // 表单输入的验证码
         username: '',
         password: ''
+      },
+      rules: {
+        username: [
+          { required: true, messages: 'd12', trigger: 'blur'},
+        ],
+        password: [
+          { required: true, messages: '请输入密码', trigger: 'blur'},
+        ],
+        ValidCode: [
+          { required: true, messages: '请输入账号', trigger: 'blur'},
+        ],
       }
     }
   },

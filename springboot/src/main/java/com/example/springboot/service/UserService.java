@@ -69,9 +69,9 @@ public class UserService {
         return page;
     }
 
-    // 验证用户账户是否合法
+    // 验证用户账户
     public User login(User user) {
-        // 根据用户名查询数据库的用户信息
+        // 根据用户名查询
         User dbUser = userMapper.selectByUsername(user.getUsername());
         if (dbUser == null) {
             // 抛出一个自定义的异常

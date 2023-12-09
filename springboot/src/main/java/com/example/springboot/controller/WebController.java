@@ -20,6 +20,7 @@ public class WebController {
     public Result hello(String name){
         return Result.success(name);
     }
+
     @Resource
     UserService userService;
 
