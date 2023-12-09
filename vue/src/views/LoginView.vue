@@ -8,14 +8,14 @@
         <el-form :model="user" style="width: 80%" :rules="rules" ref="loginRef">
           <div style="font-size: 20px;font-weight: bold;text-align: center; margin-bottom: 20px">欢迎登录</div>
           <el-form-item prop="username">
-            <el-input  prefix-icon="el-icon-user" placeholder="请输入账号：" v-model="user.username"></el-input>
+            <el-input  prefix-icon="el-icon-user" size="medium" placeholder="请输入账号：" v-model="user.username"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input prefix-icon="el-icon-lock" show-password placeholder="请输入密码：" v-model="user.password"></el-input>
+            <el-input prefix-icon="el-icon-lock" size="medium" show-password placeholder="请输入密码：" v-model="user.password"></el-input>
           </el-form-item>
-          <el-form-item prop="validCode">
+          <el-form-item prop="code">
             <div style="display: flex">
-              <el-input prefix-icon="el-icon-circle-check" size="medium" style="flex: 1" v-model="user.code"></el-input>
+              <el-input placeholder="请输入验证码：" prefix-icon="el-icon-circle-check" size="medium" style="flex: 1" v-model="user.code"></el-input>
               <div style="flex: 1;height: 40px">
                 <valid-code @input="getCode"/>
               </div>
@@ -51,13 +51,10 @@ export default {
       },
       rules: {
         username: [
-          { required: true, messages: 'd12', trigger: 'blur'},
+          { required: true, message: '请输入账号', trigger: 'blur'},
         ],
         password: [
-          { required: true, messages: '请输入密码', trigger: 'blur'},
-        ],
-        ValidCode: [
-          { required: true, messages: '请输入账号', trigger: 'blur'},
+          { required: true, message: '请输入密码', trigger: 'blur'},
         ],
       }
     }
@@ -65,15 +62,6 @@ export default {
   created () {
   },
   methods: {
-    getCode (code) {
-      console.log(code)
-      this.code = code
-    },
-    login () {
-      this.$request.post('/login', this.user).then(res =>{
-        console.log(res)
-      })
-    }
   }
 }
 </script>
