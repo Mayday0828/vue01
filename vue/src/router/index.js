@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'login',
     component: () => import( '../views/LoginView.vue')
   },
   // {
@@ -27,7 +27,13 @@ const routes = [
     name: 'index',
     component: () => import( '../views/HomeView.vue')
   },
-  {path: '/login',name:'Login',component:()=> import( '../views/LoginView')}
+  {path: '/login',name:'Login',component:()=> import( '../views/LoginView')},
+
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import( '../views/RegisterView.vue')
+  },
 ]
 
 const router = new VueRouter({

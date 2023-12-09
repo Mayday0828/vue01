@@ -49,7 +49,7 @@
              <el-dropdown-menu slot="dropdown">
                <el-dropdown-item>个人信息</el-dropdown-item>
                <el-dropdown-item>修改密码</el-dropdown-item>
-               <el-dropdown-item>退出登录</el-dropdown-item>
+               <el-dropdown-item><div @click="$router.push('/login')">退出登录</div></el-dropdown-item>
              </el-dropdown-menu>
            </el-dropdown>
          </div>

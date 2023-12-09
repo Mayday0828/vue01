@@ -1,12 +1,12 @@
 <template>
-  <div style="height: 100vh;display: flex; align-items: center;justify-content: center;background-color: antiquewhite">
+  <div style="height: 100vh;display: flex; align-items: center;justify-content: center;background-color: cornflowerblue">
     <div style="display: flex; background-color: white; width: 50%; border-radius: 5px; overflow: hidden">
       <div style="flex: 1;">
         <img src="../assets/img.png" alt="" style="width:100%;height: 100%">
       </div>
       <div style="flex: 1;display: flex; align-items: center;justify-content: center">
         <el-form :model="user" style="width: 80%" :rules="rules" ref="loginRef">
-          <div style="font-size: 20px;font-weight: bold;text-align: center; margin-bottom: 20px">欢迎登录</div>
+          <div style="font-size: 20px;font-weight: bold;text-align: center; margin-bottom: 20px">欢迎注册</div>
           <el-form-item prop="username">
             <el-input  prefix-icon="el-icon-user" size="medium" placeholder="请输入账号：" v-model="user.username"></el-input>
           </el-form-item>
@@ -25,7 +25,7 @@
             <el-button type="primary" style="width: 100%" @click="login">登录</el-button>
           </el-form-item>
           <div style="display: flex">
-            <div style="flex: 1">还没有账号？请<span style="color: blue; cursor: pointer" @click="$router.push('/register')">注册</span></div>
+            <div style="flex: 1">还没有账号？请<span style="color: blue; cursor: pointer" @click="$router,push('/register')">注册</span></div>
             <div style=" text-align: right"><span style="color: blue; cursor: pointer">忘记密码</span></div>
           </div>
         </el-form>
@@ -37,7 +37,7 @@
 import ValidCode from '@/components/ValidCode.vue'
 
 export default {
-  name: 'LoginView',
+  name: 'RegistView',
   components: {
     ValidCode
   },
