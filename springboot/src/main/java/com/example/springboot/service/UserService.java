@@ -1,7 +1,9 @@
 package com.example.springboot.service;
 
+import cn.hutool.core.util.RandomUtil;
 import com.example.springboot.common.Page;
 import com.example.springboot.entity.User;
+import com.example.springboot.exception.ServiceException;
 import com.example.springboot.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,22 +77,22 @@ public class UserService {
         User dbUser = userMapper.selectByUsername(user.getUsername());
         if (dbUser == null) {
             // 抛出一个自定义的异常
-            throw new SecurityException("用户名或密码错误");
+            throw new ServiceException("用户名或密码错误");
         }
         if (!user.getPassword().equals(dbUser.getPassword())) {
-            throw new SecurityException("用户名或密码错误");
+            throw new ServiceException("用户名或密码错误");
         }
         return dbUser;
     }
-
     public User register(User user) {
         User dbUser = userMapper.selectByUsername(user.getUsername());
         if (dbUser != null) {
             // 抛出一个自定义的异常
-            throw new SecurityException("用户名已存在");
+            throw new ServiceException("用户已存在");
         }
-        user.setName(user.getUsername());
+        user.setName("honey-" + RandomUtil.randomNumbers(4));
         userMapper.insert(user);
         return user;
     }
+
 }

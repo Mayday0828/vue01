@@ -19,7 +19,7 @@
          </el-menu-item>
 <!--         <el-menu-item index="/element">Element页面</el-menu-item>-->
           <!--   二级菜单-->
-         <el-submenu>
+         <el-submenu index="3">
            <template slot="title">
              <i class="el-icon-menu"></i>
              <span>信息管理</span>

@@ -5,7 +5,7 @@
         <img src="../assets/img.png" alt="" style="width:100%;height: 100%">
       </div>
       <div style="flex: 1;display: flex; align-items: center;justify-content: center">
-        <el-form :model="user" style="width: 80%" :rules="rules" ref="loginRef">
+        <el-form :model="user" style="width: 80%" :rules="rules" ref="registerRef">
           <div style="font-size: 20px;font-weight: bold;text-align: center; margin-bottom: 20px">欢迎注册</div>
           <el-form-item prop="username">
             <el-input  prefix-icon="el-icon-user" size="medium" placeholder="请输入账号：" v-model="user.username"></el-input>
@@ -13,20 +13,14 @@
           <el-form-item prop="password">
             <el-input prefix-icon="el-icon-lock" size="medium" show-password placeholder="请输入密码：" v-model="user.password"></el-input>
           </el-form-item>
-          <el-form-item prop="code">
-            <div style="display: flex">
-              <el-input placeholder="请输入验证码：" prefix-icon="el-icon-circle-check" size="medium" style="flex: 1" v-model="user.code"></el-input>
-              <div style="flex: 1;height: 40px">
-                <valid-code @input="getCode"/>
-              </div>
-            </div>
+          <el-form-item prop="confirmPass">
+            <el-input prefix-icon="el-icon-lock" size="medium" show-password placeholder="请确认密码：" v-model="user.confirmPass"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" style="width: 100%" @click="login">登录</el-button>
+            <el-button type="info" style="width: 100%" @click="register">注 册</el-button>
           </el-form-item>
           <div style="display: flex">
-            <div style="flex: 1">还没有账号？请<span style="color: blue; cursor: pointer" @click="$router,push('/register')">注册</span></div>
-            <div style=" text-align: right"><span style="color: blue; cursor: pointer">忘记密码</span></div>
+            <div style="flex: 1">已有账号？请<span style="color: blue; cursor: pointer" @click="$router.push('/')">登录</span></div>
           </div>
         </el-form>
       </div>
@@ -34,28 +28,24 @@
   </div>
 </template>
 <script>
-import ValidCode from '@/components/ValidCode.vue'
+
 
 export default {
-  name: 'RegistView',
-  components: {
-    ValidCode
-  },
+  name: 'RegisterView',
   data () {
-    const validateCode = (rule, value, callback) => {
-      if(value === '') {
-        callback(new Error('请输入验证码'));
-      } else if (value.toLowerCase() !== this.code ) {
-        callback(new Error('验证码错误'));
+    const validatePassword = (rule, confirmPass, callback) => {
+      if(confirmPass === '') {
+        callback(new Error('请确认密码'));
+      } else if ( confirmPass !== this.user.password ) {
+        callback(new Error('两次密码不一致'));
       } else {
         callback();
       }
     }
     // 验证码校验
     return {
-      code: '', // 验证码组件传过来的code
       user: {
-        code: '', // 表单输入的验证码
+        confirmPass: '',
         username: '',
         password: ''
       },
@@ -66,8 +56,8 @@ export default {
         password: [
           { required: true, message: '请输入密码', trigger: 'blur'},
         ],
-        code: [
-          { validator: validateCode, trigger: 'blur' }
+        confirmPass: [
+          { validator: validatePassword, trigger: 'blur' }
         ],
       }
     }
@@ -75,19 +65,14 @@ export default {
   created () {
   },
   methods: {
-    getCode(code) {
-      this.code = code.toLowerCase()
-    },
-    login() {
-      this.$refs['loginRef'].validate((valid) => {
+    register() {
+      this.$refs['registerRef'].validate((valid) => {
         if (valid) {
           // 验证通过,valid是布尔值
-          this.$request.post('/login', this.user).then(res => {
+          this.$request.post('/register', this.user).then(res => {
             if (res.code === '200') {
-              this.$router.push('/index')
-              this.$message.success('登录成功')
-              let LocalStorage;
-              LocalStorage.setItem("honey-user",JSON.stringify(res.data)) // 存储用户数据
+              this.$router.push('/')
+              this.$message.success('注册成功')
             }else {
               this.$message.error(res.msg)
             }
