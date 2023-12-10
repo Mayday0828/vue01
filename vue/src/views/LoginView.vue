@@ -86,7 +86,7 @@ export default {
             if (res.code === '200') {
               this.$router.push('/index')
               this.$message.success('登录成功')
-              LocalStorage.setItem("honey-user",JSON.stringify(res.data)) // 存储用户数据
+              localStorage.setItem("honey-user",JSON.stringify(res.data)) // 存储用户数据
             }else {
               this.$message.error(res.msg)
             }
