@@ -17,7 +17,13 @@ const routes = [
   {
     path: '/index',
     name: 'index',
-    component: () => import( '../views/HomeView.vue')
+    component: () => import( '../views/Manager.vue'),
+    redirect: '/index/home',
+    children: [
+      { path: 'home', name: 'Home', component: () => import( '../views/manager/HomeView.vue')},
+      { path: 'user', name: 'User', component: () => import( '../views/manager/User.vue')}
+    ]
+
   },
   {
     path: '/register',

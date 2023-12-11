@@ -8,23 +8,20 @@
        <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
          <img src="">logo
        </div>
-       <el-menu :collapse="isCollapse" :collapse-transition="false" router text-color="rgba(255,255,255,0.65)" active-text-color="#fff" background-color="#001529" style="border: none" :default-active="$route.path">
-         <el-menu-item index="/1">
-             <i class="el-icon-house"></i>
-             <span slot="title">系统首页</span>
-         </el-menu-item>
-         <el-menu-item index="/2">
-             <i class="el-icon-house"></i>
+       <el-menu :collapse="isCollapse" :collapse-transition="false" router text-color="rgba(255,255,255,0.65)" active-text-color="#fff"
+                background-color="#001529" style="border: none" :default-active="$route.path">
+         <el-menu-item index="/index/home">
+             <i class="el-icon-s-home"></i>
              <span slot="title">系统首页</span>
          </el-menu-item>
 <!--         <el-menu-item index="/element">Element页面</el-menu-item>-->
           <!--   二级菜单-->
-         <el-submenu index="/3">
+         <el-submenu index="info" v-if="user.role === '管理员'">
            <template slot="title">
              <i class="el-icon-menu"></i>
              <span>信息管理</span>
            </template>
-           <el-menu-item>用户信息</el-menu-item>
+           <el-menu-item index="/index/user">用户信息</el-menu-item>
            <el-menu-item>用户管理</el-menu-item>
          </el-submenu>
        </el-menu>
@@ -41,7 +38,7 @@
 
          <div style="flex: 1;width: 0;display: flex;align-items: center;justify-content: flex-end">
            <el-dropdown placement="bottom">
-             <span>用户
+             <span>{{ user.username}}
              <i class="el-icon-arrow-down el-icon--right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
@@ -53,42 +50,8 @@
          </div>
        </el-header>
 
-       <el-main>主体
-         <div style="box-shadow: 0 0 10px rgba(0,0,0,0.1);padding: 10px 20px;border-radius: 10px;margin-bottom: 10px">
-           越来越好，越来越幸运，所有考试都通过！！！！！！！！！！！！
-         </div>
-         <div style="display: flex">
-           <el-card style="width: 50%;margin-right: 20px">
-             <div slot="header" class="clearfix">
-               <span>javaWeb</span>
-             </div>
-             <div>
-               <span>2023年12月</span>
-               <div style="margin-top: 20px">
-                 <div style="margin: 10px 0"><strong>主题</strong></div>
-                 <el-button type="primary">按钮</el-button>
-                 <el-button type="success">按钮</el-button>
-                 <el-button type="info">按钮</el-button>
-                 <el-button type="warning">按钮</el-button>
-                 <el-button type="danger">按钮</el-button>
-               </div>
-             </div>
-           </el-card>
-
-           <el-card style="width: 50%;margin-right: 20px">
-             <div>
-               <span>渲染数据</span>
-             </div>
-             <div>
-               <el-table :data="users">
-                 <el-table-column label="ID" prop="id"></el-table-column>
-                 <el-table-column label="用户名" prop="username"></el-table-column>
-                 <el-table-column label="姓名" prop="name"></el-table-column>
-                 <el-table-column label="地址" prop="address"></el-table-column>
-               </el-table>
-             </div>
-           </el-card>
-         </div>
+       <el-main>
+         <router-view />
        </el-main>
      </el-container>
    </el-container>
@@ -102,13 +65,16 @@
 import request from "@/utils/request";
 
 export default {
-  name: 'HomeView',
+  name: 'Manager',
   data() {
     return {
       isCollapse: false,  //不收缩
       asideWidth: '200px',
       collapseIcon: 'el-icon-s-fold',
-      users: []
+      users: [],
+      user: JSON.parse(localStorage.getItem('honey-user') || '{}'),
+      url: '',
+      urls: []
     }
   },
   mounted() {   // 页面加载完成之后触发
