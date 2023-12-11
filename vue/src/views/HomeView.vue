@@ -9,17 +9,17 @@
          <img src="">logo
        </div>
        <el-menu :collapse="isCollapse" :collapse-transition="false" router text-color="rgba(255,255,255,0.65)" active-text-color="#fff" background-color="#001529" style="border: none" :default-active="$route.path">
-         <el-menu-item index="/">
+         <el-menu-item index="/1">
              <i class="el-icon-house"></i>
              <span slot="title">系统首页</span>
          </el-menu-item>
-         <el-menu-item index="/1">
+         <el-menu-item index="/2">
              <i class="el-icon-house"></i>
              <span slot="title">系统首页</span>
          </el-menu-item>
 <!--         <el-menu-item index="/element">Element页面</el-menu-item>-->
           <!--   二级菜单-->
-         <el-submenu index="3">
+         <el-submenu index="/3">
            <template slot="title">
              <i class="el-icon-menu"></i>
              <span>信息管理</span>
