@@ -1,40 +1,80 @@
 <template>
 <div>
-  <div style="box-shadow: 0 0 10px rgba(0,0,0,0.1);padding: 10px 20px;border-radius: 10px;margin-bottom: 10px">
-    {{ user.username }}越来越好，越来越幸运，所有考试都通过！！！！！！！！！！！！
+  <div style="padding: 10px 0">
+    <el-input style="width: 210px" suffix-icon="el-icon-search" placeholder="请输入"></el-input><el-button style="margin-left: 5px" type="primary">搜索</el-button>
   </div>
-  <div style="display: flex">
-    <el-card style="width: 100%">
-      <div slot="header" class="clearfix">
-        <span>javaWeb</span>
-      </div>
-      <div>
-        <span>2023年12月</span>
-        <div style="margin-top: 20px">
-          <div style="margin: 10px 0"><strong>主题</strong></div>
-          <el-button type="primary">按钮</el-button>
-          <el-button type="success">按钮</el-button>
-          <el-button type="info">按钮</el-button>
-          <el-button type="warning">按钮</el-button>
-          <el-button type="danger">按钮</el-button>
-        </div>
-      </div>
-    </el-card>
 
-    <el-card style="width: 50%;margin-right: 20px">
-      <div>
-        <span>渲染数据</span>
-      </div>
-      <div>
-        <el-table :data="users">
-          <el-table-column label="ID" prop="id"></el-table-column>
-          <el-table-column label="用户名" prop="username"></el-table-column>
-          <el-table-column label="姓名" prop="name"></el-table-column>
-          <el-table-column label="地址" prop="address"></el-table-column>
-        </el-table>
-      </div>
-    </el-card>
+  <div>
+    <el-row>
+      <el-col :span="8">
+        <el-card class="box-card">
+          <div style="display: flex;align-items: center;">
+            <img src="@/assets/img_4.png" style="margin-right: 40px;width: 150px;height: 150px;border-radius: 50%;">
+            <div>
+              <p style="font-size: 32px;margin-bottom: 10px;">Admin</p>
+              <p style="color: #999999;">管理员</p>
+            </div>
+          </div>
+        </el-card>
+        <el-card style="margin-top: 20px;height: 300px">
+          <div style="width: 100%">
+            <div style="margin: 10px 0">
+              <el-carousel height="400px">
+                <el-carousel-item v-for="item in imgs" :key="item.src">
+<!--                  <img :src="item" style="width: 100%">-->
+                  <img :src="item" style="width: 100%">
+                </el-carousel-item>
+              </el-carousel>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="16">
+        <div style="display: flex;flex-wrap: wrap;justify-content: space-between">
+          <el-card v-for="item in cuntData" :key="item.name" :body-style="{ display:'flex',padding:0 }" style="width: 32%;margin-bottom: 20px">
+            <i class="icon" :class="`el-icon-${item.icon}`" :style="{ background: item.color }"></i>
+            <div style="margin-left: 15px; display: flex;flex-direction: column;justify-content: center">
+              <p style="font-size: 30px;margin-bottom: 10px">{{ item.name }}</p>
+              <!--                      <p style="font-size: 14px;color: #999;text-align: center">{{ item.value }}</p>-->
+            </div>
+          </el-card>
+        </div>
+      </el-col>
+    </el-row>
   </div>
+
+  <!--  <div style="display: flex">-->
+<!--    <el-card style="width: 100%">-->
+<!--      <div slot="header" class="clearfix">-->
+<!--        <span>javaWeb</span>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <span>2023年12月</span>-->
+<!--        <div style="margin-top: 20px">-->
+<!--          <div style="margin: 10px 0"><strong>主题</strong></div>-->
+<!--          <el-button type="primary">按钮</el-button>-->
+<!--          <el-button type="success">按钮</el-button>-->
+<!--          <el-button type="info">按钮</el-button>-->
+<!--          <el-button type="warning">按钮</el-button>-->
+<!--          <el-button type="danger">按钮</el-button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </el-card>-->
+
+<!--    <el-card style="width: 50%;margin-right: 20px">-->
+<!--      <div>-->
+<!--        <span>渲染数据</span>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <el-table :data="users">-->
+<!--          <el-table-column label="ID" prop="id"></el-table-column>-->
+<!--          <el-table-column label="用户名" prop="username"></el-table-column>-->
+<!--          <el-table-column label="姓名" prop="name"></el-table-column>-->
+<!--          <el-table-column label="地址" prop="address"></el-table-column>-->
+<!--        </el-table>-->
+<!--      </div>-->
+<!--    </el-card>-->
+<!--  </div>-->
 </div>
 </template>
 
@@ -44,6 +84,49 @@ export default {
   data() {
     return {
       user: JSON.parse(localStorage.getItem('honey-user') || '{}'),
+      imgs: [
+        require('@/assets/img_1.png'),
+        require('@/assets/img_2.png'),
+        require('@/assets/img_3.png')
+      ],
+      cuntData:[
+        {
+          name: "猕猴",
+          value:123,
+          icon:"success",
+          color:"#2ec7c9"
+        },
+        {
+          name: "懒猴",
+          value:123,
+          icon:"success",
+          color:"#ffb980"
+        },
+        {
+          name: "蜘蛛猴",
+          value:123,
+          icon:"success",
+          color:"#5ab1ef"
+        },
+        {
+          name: "金丝猴",
+          value:123,
+          icon:"success",
+          color:"#2ec7c9"
+        },
+        {
+          name: "山魈",
+          value:123,
+          icon:"success",
+          color:"#2ec7c9"
+        },
+        {
+          name: "黑叶猴",
+          value:123,
+          icon:"success",
+          color:"#2ec7c9"
+        }
+      ]
     }
   },
   created() {
@@ -55,5 +138,14 @@ export default {
 </script>
 
 <style scoped>
+.icon{
+  width: 80px;
+  height: 80px;
+  font-size: 30px;
+  text-align: center;
+  line-height: 80px;
+  color: #ffffff;
+}
+
 
 </style>

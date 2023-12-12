@@ -29,6 +29,11 @@ public class WebController {
         return Result.success("success");
     }
 
+//    @GetMapping("/")
+//    public Result hello() {
+//        return Result.success("success");
+//    }
+
     @PostMapping("/login")
     public Result login(@RequestBody User user) {
         if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
