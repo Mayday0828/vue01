@@ -1,5 +1,5 @@
 <template>
-<!--<div>用户信息</div>-->
+<div>用户信息
   <div style="padding: 10px 0">
     <el-input style="width: 210px" suffix-icon="el-icon-search" placeholder="请输入"></el-input><el-button style="margin-left: 5px" type="primary">搜索</el-button>
   </div>
@@ -34,20 +34,18 @@
           :total="100">
       </el-pagination>
     </div>
-    <div>
-      <el-table :data="users">
-        <el-table-column label="ID" prop="id"></el-table-column>
-        <el-table-column label="用户名" prop="username"></el-table-column>
-        <el-table-column label="姓名" prop="name"></el-table-column>
-        <el-table-column label="地址" prop="address"></el-table-column>
-        <el-table-column label="操作" ></el-table-column>
-      </el-table>
-    </div>
+<!--    <div>-->
+<!--      <el-table :data="users">-->
+<!--        <el-table-column label="ID" prop="id"></el-table-column>-->
+<!--        <el-table-column label="用户名" prop="username"></el-table-column>-->
+<!--        <el-table-column label="姓名" prop="name"></el-table-column>-->
+<!--        <el-table-column label="地址" prop="address"></el-table-column>-->
+<!--        <el-table-column label="操作" ></el-table-column>-->
+<!--      </el-table>-->
+<!--    </div>-->
   </el-card>
 
-
-
-
+</div>
 </template>
 
 <script>
