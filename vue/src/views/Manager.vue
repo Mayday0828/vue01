@@ -44,7 +44,8 @@
              <el-dropdown-menu slot="dropdown">
                <el-dropdown-item>个人信息</el-dropdown-item>
                <el-dropdown-item>修改密码</el-dropdown-item>
-               <el-dropdown-item><div @click="$router.push('/')">退出登录</div></el-dropdown-item>
+               <el-dropdown-item><div @click="logout">退出登录</div></el-dropdown-item>
+               <!--退出登录后调用“logout”方法删除网页保存token，实现退出登录不能直接进入首页             -->
              </el-dropdown-menu>
            </el-dropdown>
          </div>
@@ -83,6 +84,10 @@ export default {
     })
   },
   methods :{
+    logout(){
+      localStorage.removeItem('honey-user')//清除当前的token数据在登陆
+      this.$router.push('/')
+    },
     handleCollapse(){
       this.isCollapse = !this.isCollapse
       this.asideWidth = this.isCollapse ? '64px' : '200px'
