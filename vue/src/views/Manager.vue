@@ -42,7 +42,7 @@
              <i class="el-icon-arrow-down el-icon--right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
-               <el-dropdown-item>个人信息</el-dropdown-item>
+               <el-dropdown-item><div @click="$router.push('/index/person')">个人信息</div></el-dropdown-item>
                <el-dropdown-item>修改密码</el-dropdown-item>
                <el-dropdown-item><div @click="$router.push('/')">退出登录</div></el-dropdown-item>
              </el-dropdown-menu>
