@@ -23,6 +23,7 @@ const routes = [
       { path: 'home', name: 'Home', component: () => import( '../views/manager/HomeView.vue')},
       { path: 'user', name: 'User', component: () => import( '../views/manager/User.vue')},
       {path: 'person', name: 'Person', component: ()=> import('../views/manager/Person.vue')},
+      {path: 'password', name: 'Password', component: ()=> import('../views/manager/Password.vue')},
       { path: '403', name: 'Auth', component: () => import( '../views/Auth.vue')}
     ]
   },

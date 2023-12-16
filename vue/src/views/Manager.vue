@@ -43,7 +43,7 @@
              </span>
              <el-dropdown-menu slot="dropdown">
                <el-dropdown-item><div @click="$router.push('/index/person')">个人信息</div></el-dropdown-item>
-               <el-dropdown-item>修改密码</el-dropdown-item>
+               <el-dropdown-item><div @click="$router.push('/index/password')">修改密码</div></el-dropdown-item>
                <el-dropdown-item><div @click="logout">退出登录</div></el-dropdown-item>
                <!--退出登录后调用“logout”方法删除网页保存token，实现退出登录不能直接进入首页             -->
              </el-dropdown-menu>
