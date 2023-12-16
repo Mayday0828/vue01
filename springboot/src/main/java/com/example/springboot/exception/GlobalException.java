@@ -12,7 +12,7 @@ public class GlobalException {
     @ExceptionHandler(ServiceException.class)
     @ResponseBody
     public Result serviceException(ServiceException e){
-        return Result.error( "500", e.getMessage());
+        return Result.error( e.getCode(), e.getMessage());//一个code一种错误
 
     }
 }
