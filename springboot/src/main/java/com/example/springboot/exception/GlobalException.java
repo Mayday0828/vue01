@@ -13,6 +13,12 @@ public class GlobalException {
     @ResponseBody
     public Result serviceException(ServiceException e){
         return Result.error( e.getCode(), e.getMessage());//一个code一种错误
-
+    }
+    //全局异常处理
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public Result globalException(Exception e) {
+        e.printStackTrace();
+        return Result.error("500", "系统错误");
     }
 }

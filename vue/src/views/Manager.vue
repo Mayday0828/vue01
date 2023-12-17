@@ -42,8 +42,8 @@
              <i class="el-icon-arrow-down el-icon--right"></i>
              </span>
              <el-dropdown-menu slot="dropdown">
-               <el-dropdown-item>个人信息</el-dropdown-item>
-               <el-dropdown-item>修改密码</el-dropdown-item>
+               <el-dropdown-item><div @click="$router.push('/index/person')">个人信息</div></el-dropdown-item>
+               <el-dropdown-item><div @click="$router.push('/index/password')">修改密码</div></el-dropdown-item>
                <el-dropdown-item><div @click="logout">退出登录</div></el-dropdown-item>
                <!--退出登录后调用“logout”方法删除网页保存token，实现退出登录不能直接进入首页             -->
              </el-dropdown-menu>
@@ -53,6 +53,35 @@
 
        <el-main>
          <router-view />
+
+         <div style="display: flex; margin: 10px 0">
+           <el-card style="widthn: 50%;margin: 10px">
+             <div slot="header" class="clearfix">
+             <span>文件上传下载</span>
+             </div>
+<!--             文件上传-->
+         <div>
+           <el-upload
+               accept="jpg"
+               tction="https://localhost:7070/file/upload"
+               :header="{token: user.token}"
+               :file-list="filelist"
+               list-type="picture"
+               :on-success="handleFileUpload">
+<!--             //文件上传成功的钩子-->
+             <el-button size="small" type="primary">点击上传</el-button>
+             <div slot="tip" class="eL-upload__tip">只能上传jpg/png文件， 且不超过500kb</div>
+           </el-upload>
+           <!--          文件下载-->
+
+          <div style="margin: 10px 0">
+          <el-input v-model="url"></el-input>
+             <el-button>文件下载</el-button>
+         </div>
+         </div>
+         </el-card>
+         </div>
+
        </el-main>
      </el-container>
    </el-container>
@@ -75,7 +104,8 @@ export default {
       users: [],
       user: JSON.parse(localStorage.getItem('honey-user') || '{}'),
       url: '',
-      urls: []
+      urls: [],
+      filelist: [],
     }
   },
   mounted() {   // 页面加载完成之后触发
@@ -84,6 +114,9 @@ export default {
     })
   },
   methods :{
+    handleFileUpload(response,file,fileList){
+      this.filelist=fileList
+    },
     logout(){
       localStorage.removeItem('honey-user')//清除当前的token数据在登陆
       this.$router.push('/')
