@@ -14,6 +14,7 @@ const routes = [
     name: 'Element',
     component: () => import( '../views/Element.vue')
   },
+
   {
     path: '/index',
     name: 'index',

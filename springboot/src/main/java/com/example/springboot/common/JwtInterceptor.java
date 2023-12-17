@@ -57,7 +57,7 @@ public class JwtInterceptor implements HandlerInterceptor{
             throw new ServiceException("401", "请登录");
         }
         // 根据token中的userid查询数据库
-        User user = userMapper.selectAllById(Integer.valueOf(userId));//把字符串转成数字
+        User user = userMapper.selectById(Integer.valueOf(userId));//把字符串转成数字
         if (user == null) {
             throw new ServiceException("401", "请登录");
         }

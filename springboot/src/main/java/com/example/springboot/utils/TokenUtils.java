@@ -56,7 +56,7 @@ public class TokenUtils {
             String token = request.getHeader("token");
             if (StrUtil.isNotBlank(token)) {
                 String userId = JWT.decode(token).getAudience().get(0);
-                return staticUserMapper.selectAllById(Integer.valueOf(userId));//通过userId返回user信息
+                return staticUserMapper.selectById(Integer.valueOf(userId));//通过userId返回user信息
             }
         } catch (Exception e) {
             return null;
