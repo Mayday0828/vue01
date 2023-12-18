@@ -14,7 +14,12 @@
              <i class="el-icon-s-home"></i>
              <span slot="title">系统首页</span>
          </el-menu-item>
-<!--         <el-menu-item index="/element">Element页面</el-menu-item>-->
+         <el-menu-item index="/index/monkey">
+           <i class="el-icon-star-off"></i>
+           <span>猴子信息</span>
+         </el-menu-item>
+
+         <!--         <el-menu-item index="/element">Element页面</el-menu-item>-->
           <!--   二级菜单-->
          <el-submenu index="info" v-if="user.role === '管理员'">
            <template slot="title">
@@ -23,6 +28,7 @@
            </template>
            <el-menu-item index="/index/user">用户信息</el-menu-item>
            <el-menu-item>用户管理</el-menu-item>
+           <el-menu-item index="/index/monkey">猴子信息</el-menu-item>
          </el-submenu>
        </el-menu>
      </el-aside>
@@ -53,34 +59,6 @@
 
        <el-main>
          <router-view />
-
-         <div style="display: flex; margin: 10px 0">
-           <el-card style="widthn: 50%;margin: 10px">
-             <div slot="header" class="clearfix">
-             <span>文件上传下载</span>
-             </div>
-<!--             文件上传-->
-         <div>
-           <el-upload
-               accept="jpg"
-               tction="https://localhost:7070/file/upload"
-               :header="{token: user.token}"
-               :file-list="filelist"
-               list-type="picture"
-               :on-success="handleFileUpload">
-<!--             //文件上传成功的钩子-->
-             <el-button size="small" type="primary">点击上传</el-button>
-             <div slot="tip" class="eL-upload__tip">只能上传jpg/png文件， 且不超过500kb</div>
-           </el-upload>
-           <!--          文件下载-->
-
-          <div style="margin: 10px 0">
-          <el-input v-model="url"></el-input>
-             <el-button>文件下载</el-button>
-         </div>
-         </div>
-         </el-card>
-         </div>
 
        </el-main>
      </el-container>
