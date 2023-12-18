@@ -1,71 +1,177 @@
 package com.example.springboot.controller;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot.common.AuthAccess;
 import com.example.springboot.common.Result;
+import com.example.springboot.entity.Files;
+import com.example.springboot.entity.User;
+import com.example.springboot.mapper.FileMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * 功能：实现文件的上传和下载
  * 作者：小华
  * 日期： 2023/12/16 16:17
  */
+
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/index/file")
 public class FileController {
-    @Value("${ip:localhost}")
-    String ip;
 
-    @Value("${server.port}")
-    String port;
+    @Value("${file.upload.path")
+    private String fileUploadPath;
 
-    private static final String ROOT_PATH=System.getProperty("user.dir")+File.separator+"file";
+    @Autowired
+    private FileMapper fileMapper;
 
+    /**
+    *官文件上传接口
+    *@param file 前端传递过来的文件
+    *@return
+    *athrows IOExcoption
+    **/
     @AuthAccess
-    //上传文件接口
-    @PostMapping("/upload")//post接口
-    public Result upload(MultipartFile file) throws IOException {//file存到后端
-        String originalFilename = file.getOriginalFilename();//文件的原始名称
-        //比如文件;abc.jpg
-        String mainName = FileUtil.mainName(originalFilename);//获得abc
-        String extName =FileUtil.extName("文件的后缀");//extName提供实现方法,获得文件后缀不带“.”
-        //获得jpg
-        if (!FileUtil.exist(ROOT_PATH)){//如果当前文件夹父级目录不存在
-            FileUtil.mkdir(ROOT_PATH);//创建文件夹
+    @PostMapping("/upload")
+    public String uploadCd(@RequestParam MultipartFile file) throws IOException {
+        String originalFilename = file.getOriginalFilename();
+        String type = FileUtil.extName(originalFilename);
+        long size = file.getSize();
+
+        // 定义一个文件唯一的标识码
+        String uuid = IdUtil.fastSimpleUUID();
+        String fileUUID = uuid + StrUtil.DOT + type;
+
+        File uploadFile = new File(fileUploadPath + fileUUID);
+        // 判断配置的文件目录是否存在，若不存在则创建一个新的文件目录
+        File parentFile = uploadFile.getParentFile();
+        if(!parentFile.exists()) {
+            parentFile.mkdirs();
         }
 
-        //文件名重复定义文件重命名方法D:\java1\2\vue01\flie\123_abc.jpg
-        if (FileUtil.exist(ROOT_PATH+File.separator+originalFilename)){//如果当上传文件已存在时，
-            originalFilename=System.currentTimeMillis()+"_"+mainName+"."+extName;
-            ////路径存在更改，重命名文件
+        String url;
+        // 获取文件的md5
+        String md5 = SecureUtil.md5(file.getInputStream());
+        // 从数据库查询是否存在相同的记录
+        Files dbFiles = getFileByMd5(md5);
+        if (dbFiles != null) { // 文件已存在
+            url = dbFiles.getUrl();
+        } else {
+            // 上传文件到磁盘
+            file.transferTo(uploadFile);
+            // 数据库若不存在重复文件，则不删除刚才上传的文件
+            url = "http://localhost:7070/file/" + fileUUID;
         }
-        File saveFile = new File(ROOT_PATH+File.separator+originalFilename);
-        file.transferTo(saveFile);//存储文件到本地磁盘
-        String url ="http://"+ ip + ":"+ port +"/file/download/"+originalFilename;
-        //用动态获取IP的方式获取地址
-        return Result.success(url);//返回文件链接，下载地址，这个下载地址后台提供
+
+        // 存储数据库
+        Files saveFile = new Files();
+        saveFile.setName(originalFilename);
+        saveFile.setType(type);
+        saveFile.setSize(size/1024);
+        saveFile.setUrl(url);
+        saveFile.setMd5(md5);
+        fileMapper.insert(saveFile);
+
+        return url;
     }
 
+    /**
+     * 文件下载接口   http://localhost:7070/file/{fileUUID}
+     * @param fileUUID
+     * @param response
+     * @throws IOException
+     */
     @AuthAccess
-    //下载文件接口
-    @GetMapping ("/download/{fileName}")//post接口
-    public void download(@PathVariable String fileName, HttpServletResponse response)throws IOException {//文件流的形式
-        String filePath =ROOT_PATH+File.separator+fileName;
-        if (!FileUtil.exist(filePath)){//判断存不存在
-                return;//不在直接返回
+    @GetMapping("/{fileUUID}")
+    public void download(@PathVariable String fileUUID, HttpServletResponse response) throws IOException {
+        // 根据文件的唯一标识码获取文件
+        File uploadFile = new File(fileUploadPath + fileUUID);
+        // 设置输出流的格式
+        ServletOutputStream os = response.getOutputStream();
+        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileUUID, "UTF-8"));
+        response.setContentType("application/octet-stream");
+
+        // 读取文件的字节流
+        os.write(FileUtil.readBytes(uploadFile));
+        os.flush();
+        os.close();
+    }
+
+
+    /**
+     * 通过文件的md5查询文件
+     * @param md5
+     * @return
+     */
+    private Files getFileByMd5(String md5) {
+        // 查询文件的md5是否存在
+        QueryWrapper<Files> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("md5", md5);
+        List<Files> filesList = fileMapper.selectList(queryWrapper);
+        return filesList.size() == 0 ? null : filesList.get(0);
+    }
+    @AuthAccess
+    @PostMapping("/update")
+    public Result update(@RequestBody Files files) {
+        return Result.success(fileMapper.updateById(files));
+    }
+    @AuthAccess
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        Files files = fileMapper.selectById(id);
+        files.setIsDelete(true);
+        fileMapper.updateById(files);
+        return Result.success();
+    }
+    @AuthAccess
+    @PostMapping("/del/batch")
+    public Result deleteBatch(@RequestBody List<Integer> ids) {
+        // select * from sys_file where id in (id,id,id...)
+        QueryWrapper<Files> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("id", ids);
+        List<Files> files = fileMapper.selectList(queryWrapper);
+        for (Files file : files) {
+            file.setIsDelete(true);
+            fileMapper.updateById(file);
         }
-        byte[] bytes = FileUtil.readBytes(filePath);//存在，读写文件
-        //@PathVariable表示{fileName}是一个路径参数，fileName文件名称
-        ServletOutputStream outputStream= response.getOutputStream();
-        outputStream.write(bytes);//数组是一个字节数组，也就是文件的字节流数组
-        outputStream.flush();
-        outputStream.close();//不用关闭文件，不然会占用资源
+        return Result.success();
+    }
+
+    /**
+     * 分页查询接口
+     * @param pageNum
+     * @param pageSize
+     * @param name
+     * @return
+     */
+    @AuthAccess
+    @GetMapping("/page")
+    public Result findPage(@RequestParam Integer pageNum,
+                           @RequestParam Integer pageSize,
+                           @RequestParam(defaultValue = "") String name) {
+
+        QueryWrapper<Files> queryWrapper = new QueryWrapper<>();
+        // 查询未删除的记录
+        queryWrapper.eq("is_delete", false);
+        queryWrapper.orderByDesc("id");
+        if (!"".equals(name)) {
+            queryWrapper.like("name", name);
+        }
+        return Result.success(fileMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper));
     }
 }

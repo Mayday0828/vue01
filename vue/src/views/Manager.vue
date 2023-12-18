@@ -14,12 +14,7 @@
              <i class="el-icon-s-home"></i>
              <span slot="title">系统首页</span>
          </el-menu-item>
-         <el-menu-item index="/index/monkey">
-           <i class="el-icon-star-off"></i>
-           <span>猴子信息</span>
-         </el-menu-item>
-
-         <!--         <el-menu-item index="/element">Element页面</el-menu-item>-->
+<!--         <el-menu-item index="/element">Element页面</el-menu-item>-->
           <!--   二级菜单-->
          <el-submenu index="info" v-if="user.role === '管理员'">
            <template slot="title">
@@ -28,7 +23,9 @@
            </template>
            <el-menu-item index="/index/user">用户信息</el-menu-item>
            <el-menu-item>用户管理</el-menu-item>
-           <el-menu-item index="/index/monkey">猴子信息</el-menu-item>
+           <el-menu-item index="/index/notice">系统公告</el-menu-item>
+           <el-menu-item index="/index/Monkey">猴子</el-menu-item>
+           <el-menu-item index="/index/file">文件管理</el-menu-item>
          </el-submenu>
        </el-menu>
      </el-aside>
@@ -56,9 +53,9 @@
            </el-dropdown>
          </div>
        </el-header>
-
        <el-main>
          <router-view />
+
 
        </el-main>
      </el-container>
@@ -83,7 +80,7 @@ export default {
       user: JSON.parse(localStorage.getItem('honey-user') || '{}'),
       url: '',
       urls: [],
-      filelist: [],
+
     }
   },
   mounted() {   // 页面加载完成之后触发
@@ -92,9 +89,6 @@ export default {
     })
   },
   methods :{
-    handleFileUpload(response,file,fileList){
-      this.filelist=fileList
-    },
     logout(){
       localStorage.removeItem('honey-user')//清除当前的token数据在登陆
       this.$router.push('/')

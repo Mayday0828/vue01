@@ -26,7 +26,9 @@ const routes = [
       {path: 'person', name: 'Person', component: ()=> import('../views/manager/Person.vue')},
       {path: 'password', name: 'Password', component: ()=> import('../views/manager/Password.vue')},
       { path: '403', name: 'Auth', component: () => import( '../views/Auth.vue')},
-      { path: 'monkey', name: 'Monkey', component: () => import( '../views/manager/Monkey.vue')}
+      { path: 'notice', name: 'Notice', component: () => import( '../views/manager/Notice.vue')},
+      { path: 'Monkey', name: 'Notice', component: () => import( '../views/manager/Monkey.vue')},
+      { path: 'File', name: 'File', component: () => import( '../views/manager/File.vue')},
     ]
   },
 
