@@ -35,12 +35,12 @@ export default {
   data() {
     return {
       products: [
-        { id: 1, name: '猕 猴', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_11.png' },
-        { id: 1, name: '懒 猴', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_6.png' },
-        { id: 1, name: '蜘蛛猴', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_7.png' },
-        { id: 1, name: '金丝猴', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_8.png' },
-        { id: 1, name: '山 魈', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_9.png' },
-        { id: 1, name: '黑叶猴', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_10.png' },
+        { id: 1, name: '猕 猴', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_1.png' },
+        { id: 1, name: '懒 猴', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_2.png' },
+        // { id: 1, name: '蜘蛛猴', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_7.png' },
+        // { id: 1, name: '金丝猴', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_8.png' },
+        // { id: 1, name: '山 魈', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_9.png' },
+        // { id: 1, name: '黑叶猴', description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.', imageSrc: 'img_10.png' },
       ],
       currentPage: 1,
       pageSize: 9, // 每页显示数量

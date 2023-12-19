@@ -38,6 +38,7 @@
             <i class="icon" :class="`el-icon-${item.icon}`" :style="{ background: item.color }"></i>
             <div style="margin-left: 15px; display: flex;flex-direction: column;justify-content: center">
               <p style="font-size: 30px;margin-bottom: 10px">{{ item.name }}</p>
+
             </div>
           </el-card>
            <!--  折线图-->
@@ -151,6 +152,9 @@ export default {
   //   }
   // }
   methods: {
+    handleFileUpload(response,file,fileList){
+      this.filelist=fileList
+    },
     showCard(index) {
       this.$refs.card[index].$emit('click');
     },
