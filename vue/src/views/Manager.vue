@@ -27,7 +27,7 @@
              <span>信息管理</span>
            </template>
            <el-menu-item index="/index/user">用户信息</el-menu-item>
-           <el-menu-item>用户管理</el-menu-item>
+           <el-menu-item index="/index/massage">猴子管理</el-menu-item>
            <el-menu-item index="/index/monkey">猴子信息</el-menu-item>
          </el-submenu>
        </el-menu>
