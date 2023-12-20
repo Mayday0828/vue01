@@ -16,7 +16,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport{
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor())//配置jwt的拦截器的规则
                 .addPathPatterns("/**");
-//                .excludePathPatterns("/login");
+//                .excludePathPatterns("/login");//第二种放行放行方式
         super.addInterceptors(registry);
     }
 

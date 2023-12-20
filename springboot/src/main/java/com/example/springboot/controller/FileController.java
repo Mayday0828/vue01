@@ -5,13 +5,12 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.springboot.common.AuthAccess;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.Files;
 import com.example.springboot.entity.User;
 import com.example.springboot.mapper.FileMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,30 +24,26 @@ import java.net.URLEncoder;
 import java.util.List;
 
 /**
- * 功能：实现文件的上传和下载
- * 作者：小华
- * 日期： 2023/12/16 16:17
+ * 文件上传相关接口
  */
-
 @RestController
-@RequestMapping("/index/file")
+@RequestMapping("/file")
 public class FileController {
 
-    @Value("${file.upload.path")
+    @Value("${files.upload.path}")
     private String fileUploadPath;
 
-    @Autowired
+    @Resource
     private FileMapper fileMapper;
 
     /**
-    *官文件上传接口
-    *@param file 前端传递过来的文件
-    *@return
-    *athrows IOExcoption
-    **/
-    @AuthAccess
+     * 文件上传接口
+     * @param file 前端传递过来的文件
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/upload")
-    public String uploadCd(@RequestParam MultipartFile file) throws IOException {
+    public String upload(@RequestParam MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
         String type = FileUtil.extName(originalFilename);
         long size = file.getSize();
@@ -75,7 +70,7 @@ public class FileController {
             // 上传文件到磁盘
             file.transferTo(uploadFile);
             // 数据库若不存在重复文件，则不删除刚才上传的文件
-            url = "http://localhost:7070/file/" + fileUUID;
+            url = "http://localhost:7070/index/file/" + fileUUID;
         }
 
         // 存储数据库
@@ -96,7 +91,6 @@ public class FileController {
      * @param response
      * @throws IOException
      */
-    @AuthAccess
     @GetMapping("/{fileUUID}")
     public void download(@PathVariable String fileUUID, HttpServletResponse response) throws IOException {
         // 根据文件的唯一标识码获取文件
@@ -125,20 +119,20 @@ public class FileController {
         List<Files> filesList = fileMapper.selectList(queryWrapper);
         return filesList.size() == 0 ? null : filesList.get(0);
     }
-    @AuthAccess
+
     @PostMapping("/update")
     public Result update(@RequestBody Files files) {
         return Result.success(fileMapper.updateById(files));
     }
-    @AuthAccess
+
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id) {
         Files files = fileMapper.selectById(id);
-        files.setIsDelete(true);
+        files.setIs_delete(true);
         fileMapper.updateById(files);
         return Result.success();
     }
-    @AuthAccess
+
     @PostMapping("/del/batch")
     public Result deleteBatch(@RequestBody List<Integer> ids) {
         // select * from sys_file where id in (id,id,id...)
@@ -146,7 +140,7 @@ public class FileController {
         queryWrapper.in("id", ids);
         List<Files> files = fileMapper.selectList(queryWrapper);
         for (Files file : files) {
-            file.setIsDelete(true);
+            file.setIs_delete(true);
             fileMapper.updateById(file);
         }
         return Result.success();
@@ -159,7 +153,6 @@ public class FileController {
      * @param name
      * @return
      */
-    @AuthAccess
     @GetMapping("/page")
     public Result findPage(@RequestParam Integer pageNum,
                            @RequestParam Integer pageSize,
@@ -174,4 +167,6 @@ public class FileController {
         }
         return Result.success(fileMapper.selectPage(new Page<>(pageNum, pageSize), queryWrapper));
     }
+
+
 }

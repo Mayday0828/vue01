@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "File",
   data() {
@@ -80,7 +81,9 @@ export default {
       multipleSelection: [],
       pageNum: 1,
       pageSize: 10,
-      total: 0
+      total: 0,
+      form: {},
+      user: JSON.parse(localStorage.getItem('honey-file') || '{}'),
     }
   },
   created() {

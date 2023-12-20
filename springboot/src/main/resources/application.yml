@@ -27,4 +27,4 @@ spring:
       max-request-size: 20MB
 files:
   upload:
-    path: D:/java1/2/vue01/file
+    path: D:\java1\2\vue01\file

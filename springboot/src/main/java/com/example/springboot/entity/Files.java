@@ -9,7 +9,7 @@ import lombok.Data;
  * 日期： 2023/12/1823:35
  */
 @Data
-@TableName("sys_file")
+@TableName("file")
 public class Files {
 
     @TableId(type = IdType.AUTO)
@@ -19,7 +19,6 @@ public class Files {
     private Long size;
     private String url;
     private String md5;
-    private Boolean isDelete;
+    private Boolean is_delete;
     private Boolean enable;
-
 }

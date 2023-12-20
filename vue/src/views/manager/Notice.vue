@@ -134,6 +134,8 @@ export default {
       this.fromVisible = true   // 打开弹窗
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
+      alert(this.form.title)
+      alert(this.form.content)
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.sendSaveRequest()
@@ -141,6 +143,7 @@ export default {
       })
     },
     sendSaveRequest() {
+      alert(12345677)
       this.$request({
         url: this.form.id ? '/index/notice/update': '/index/notice/add',
         method: this.form.id ? 'PUT' : 'POST',

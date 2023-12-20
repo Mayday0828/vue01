@@ -27,8 +27,11 @@
              <span>信息管理</span>
            </template>
            <el-menu-item index="/index/user">用户信息</el-menu-item>
-           <el-menu-item index="/index/massage">猴子管理</el-menu-item>
-           <el-menu-item index="/index/monkey">猴子信息</el-menu-item>
+           <el-menu-item>用户管理</el-menu-item>
+           <el-menu-item index="/index/notice">系统公告</el-menu-item>
+           <el-menu-item index="/index/massage.vue">猴子管理</el-menu-item>
+           <el-menu-item index="/index/Monkey">猴子信息</el-menu-item>
+           <el-menu-item index="/index/file">文件管理</el-menu-item>
          </el-submenu>
        </el-menu>
      </el-aside>
@@ -91,6 +94,10 @@ export default {
       this.users=res.data
     })
   },
+  created() {
+    //从后台获取user数据
+  this.getUser()
+    },
   methods :{
     handleFileUpload(response,file,fileList){
       this.filelist=fileList
@@ -104,10 +111,21 @@ export default {
       this.asideWidth = this.isCollapse ? '64px' : '200px'
       this.collapseIcon = this.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'
     }
-  }
+  },
   // components: {
   //   HelloWorld
   // }
+  //获取用户最新信息
+  getUser() {
+    let username = localStorage . getItem(  "honey-user") ? JSON. parse (localStorage. getItem(  "honey-user" )) .username :""
+    if (username) {
+    //从后台获取User数据
+    this. request.get("/user/username/" + username). then(res => {
+    //重新财值后台的最新User数据
+    this.user = res. data
+    })
+  }
+  }
 }
 </script>
 
